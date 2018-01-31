@@ -10,10 +10,10 @@ from Bio import SeqIO
 
 #set up script parameters
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--fasta')
-parser.add_argument('-r', '--reads')
-parser.add_argument('-sd', '--stddev')
-parser.add_argument('-l', '--meanlength')
+parser.add_argument('-f', '--fasta', help='input fasta file')
+parser.add_argument('-r', '--reads', help='number of reads to simulate')
+parser.add_argument('-sd', '--stddev', help='standard deviation of fragment length distribution')
+parser.add_argument('-l', '--meanlength', help='mean fragment length')
 
 args = parser.parse_args()
 
@@ -35,8 +35,9 @@ for i in range(1, int(args.reads)+1):
                         if int(start)+int(fragLen) >= length:
                                 newSeq = record.seq[int(start):int(start)-int(fragLen)]
                                 revComp = newSeq.reverse_complement()
-                                print(">otu%i|%s|%i\n%s" % (i, read, len(newSeq), newSeq))
+                                print(">%s_%i|%i\n%s" % (read, i, len(newSeq), newSeq))
                         elif int(start)+int(fragLen) <= length:
                                 newSeq = record.seq[int(start):int(start)+int(fragLen)]
-                                print(">otu%i|%s|%i\n%s" % (i, read, len(newSeq), newSeq))
+                                print(">%s_%i|%i\n%s" % (i, read, len(newSeq), newSeq))
+
 
