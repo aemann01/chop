@@ -45,10 +45,10 @@ def singleEnd(fastaDict, adapter):
 			if record.name == read:
 				if int(start)+int(fragLen) >= length: #make sure end position is not past the total fasta entry length
 					newSeq = adapter + record.seq[int(start)-int(fragLen):int(start)]
-					print(">%s_%i|%s|%i|%i:%i\n%s%s" % (read, i, args.fasta, len(newSeq), newSeq[0:int(args.maxlen)]))
+					print(">%s_%i|%s|%i|%i:%i\n%s" % (read, i, args.fasta, len(newSeq), newSeq[0:int(args.maxlen)]))
 				elif int(start)+int(fragLen) <= length:
 					newSeq = adapter + record.seq[int(start):int(start)+int(fragLen)]
-					print(">%s_%i|%s|%i|%i:%i\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), newSeq[0:int(args.maxlen)]))
+					print(">%s_%i|%s|%i|%i:%i\n%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), newSeq[0:int(args.maxlen)]))
 
 
 def pairedEnd(fastaDict, adapter):
@@ -63,13 +63,13 @@ def pairedEnd(fastaDict, adapter):
 				if int(start)+int(fragLen) >= length:
 						readone = adapter + record.seq[int(start)-int(fragLen):int(start)]
 						readtwo = adapter + record.seq[int(start):int(start)+int(fragLen)]
-						print(">%s_%i|%s|%i|%i:%i\t1\n%s%s" % (read, i, args.fasta, len(readone), int(start), int(start)+int(fragLen), readone[0:int(args.maxlen)]))
-						print(">%s_%i|%s|%i|%i:%i\t2\n%s%s" % (read, i, args.fasta, len(readtwo), int(start), int(start)+int(fragLen), readtwo[0:int(args.maxlen)]))
+						print(">%s_%i|%s|%i|%i:%i\t1\n%s" % (read, i, args.fasta, len(readone), int(start), int(start)+int(fragLen), readone[0:int(args.maxlen)]))
+						print(">%s_%i|%s|%i|%i:%i\t2\n%s" % (read, i, args.fasta, len(readtwo), int(start), int(start)+int(fragLen), readtwo[0:int(args.maxlen)]))
 				elif int(start)+int(fragLen) <= length:
 						readone = adapter + record.seq[int(start):int(start)+int(fragLen)]
 						readtwo = adapter + record.seq[int(start)-int(fragLen):int(start)]
-						print(">%s_%i|%s|%i|%i:%i\t1\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), readone[0:int(args.maxlen)]))
-						print(">%s_%i|%s|%i|%i:%i\t2\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), readtwo[0:int(args.maxlen)]))
+						print(">%s_%i|%s|%i|%i:%i\t1\n%s" % (read, i, args.fasta, len(readone), int(start), int(start)+int(fragLen), readone[0:int(args.maxlen)]))
+						print(">%s_%i|%s|%i|%i:%i\t2\n%s" % (read, i, args.fasta, len(readtwo), int(start), int(start)+int(fragLen), readtwo[0:int(args.maxlen)]))
 
 #initialize program
 if args.seqtype == 'paired':
