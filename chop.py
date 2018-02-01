@@ -36,7 +36,7 @@ fastaDict = dict(zip(names, lengths))
 adapter = str(args.adapter)
 
 def singleEnd(fastaDict, adapter):
-	for i in range(1, int(args.reads)+1):
+	for i in range(int(args.reads)+1):
 		read, length = random.choice(list(fastaDict.items()))
 		start = np.random.randint(1, int(length))
 		fragLen = int(np.random.normal(int(args.insertSize), int(args.stddev), 1))
@@ -45,43 +45,43 @@ def singleEnd(fastaDict, adapter):
 			if record.name == read:
 				if int(fragLen)+len(adapter) <= int(args.maxlen): #if the length of the fragment is shorter than the max seq length
 					newSeq = record.seq[int(start):int(start)+int(fragLen)]
-					print(">%s_%i|%i|%i:%i\n%s%s" % (read, i, int(fragLen), int(start), int(start)+int(fragLen), adapter, newSeq))
+					print(">%s_%i|%s|%i|%i:%i\n%s%s" % (read, i, args.fasta, int(fragLen), int(start), int(start)+int(fragLen), adapter, newSeq))
 				elif int(start)+int(fragLen) >= length: #make sure end position is not past the total fasta entry length
 					newSeq = record.seq[int(start):int(start)-int(fragLen)][0:int(args.maxlen)]
 					revComp = newSeq.reverse_complement()
-					print(">%s_%i|%i|%i:%i\n%s%s" % (read, i, len(newSeq), adapter, newSeq))
+					print(">%s_%i|%s|%i|%i:%i\n%s%s" % (read, i, args.fasta, len(newSeq), adapter, newSeq))
 				elif int(start)+int(fragLen) <= length:
 					newSeq = record.seq[int(start):int(start)+int(fragLen)][0:int(args.maxlen)]
-					print(">%s_%i|%i|%i:%i\n%s%s" % (read, i, len(newSeq), int(start), int(start)+int(fragLen), adapter, newSeq))
+					print(">%s_%i|%s|%i|%i:%i\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), adapter, newSeq))
 
 
 def pairedEnd(fastaDict, adapter):
         #use loop to randomly pick one of the reads, get the name and length to get starting coordinate
-	for i in range(1, int(args.reads)+1):
+	for i in range(int(args.reads)+1):
 		read, length = random.choice(list(fastaDict.items()))
 		start = np.random.randint(1, int(length))
 		fragLen = int(np.random.normal(int(args.insertSize), int(args.stddev), 1))-int(len(adapter))
 
-	for record in SeqIO.parse(open(args.fasta, "r"), "fasta"):
-		if record.name == read:
-			if int(fragLen)+len(adapter) <= int(args.maxlen):
-					readone = record.seq[int(start):int(start)+int(fragLen)]
-					readtwo = readone.reverse_complement()
-					print(">%s_%i|%i|%i:%i\t1\n%s%s" % (read, i, len(readone), int(start), int(start)+int(fragLen), adapter, readone))
-					print(">%s_%i|%i|%i:%i\t2\n%s%s" % (read, i, len(readtwo), int(start), int(start)+int(fragLen), adapter, readtwo))
-			elif int(start)+int(fragLen) >= length:
-					newSeq = record.seq[int(start):int(start)-int(fragLen)]
-					revComp = newSeq.reverse_complement()
-					readone = revComp[0:int(args.maxlen)]
-					readtwo = revComp.reverse_complement()[0:int(args.maxlen)]
-					print(">%s_%i|%i|%i:%i\t1\n%s%s" % (read, i, len(newSeq), int(start), int(start)+int(fragLen), adapter, readone))
-					print(">%s_%i|%i|%i:%i\t2\n%s%s" % (read, i, len(newSeq), int(start), int(start)+int(fragLen), adapter, readtwo))
-			elif int(start)+int(fragLen) <= length:
-					newSeq = record.seq[int(start):int(start)+int(fragLen)]
-					readone = newSeq[0:int(args.maxlen)]
-					readtwo = newSeq.reverse_complement()[0:int(args.maxlen)]
-					print(">%s_%i|%i|%i:%i\t1\n%s%s" % (read, i, len(newSeq), int(start), int(start)+int(fragLen), adapter, readone))
-					print(">%s_%i|%i|%i:%i\t2\n%s%s" % (read, i, len(newSeq), int(start), int(start)+int(fragLen), adapter, readtwo))
+		for record in SeqIO.parse(open(args.fasta, "r"), "fasta"):
+			if record.name == read:
+				if int(fragLen)+len(adapter) <= int(args.maxlen):
+						readone = record.seq[int(start):int(start)+int(fragLen)]
+						readtwo = readone.reverse_complement()
+						print(">%s_%i|%s|%i|%i:%i\t1\n%s%s" % (read, i, args.fasta, len(readone), int(start), int(start)+int(fragLen), adapter, readone))
+						print(">%s_%i|%s|%i|%i:%i\t2\n%s%s" % (read, i, args.fasta, len(readtwo), int(start), int(start)+int(fragLen), adapter, readtwo))
+				elif int(start)+int(fragLen) >= length:
+						newSeq = record.seq[int(start):int(start)-int(fragLen)]
+						revComp = newSeq.reverse_complement()
+						readone = revComp[0:int(args.maxlen)]
+						readtwo = revComp.reverse_complement()[0:int(args.maxlen)]
+						print(">%s_%i|%s|%i|%i:%i\t1\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), adapter, readone))
+						print(">%s_%i|%s|%i|%i:%i\t2\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), adapter, readtwo))
+				elif int(start)+int(fragLen) <= length:
+						newSeq = record.seq[int(start):int(start)+int(fragLen)]
+						readone = newSeq[0:int(args.maxlen)]
+						readtwo = newSeq.reverse_complement()[0:int(args.maxlen)]
+						print(">%s_%i|%s|%i|%i:%i\t1\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), adapter, readone))
+						print(">%s_%i|%s|%i|%i:%i\t2\n%s%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), adapter, readtwo))
 
 #initialize program
 if args.seqtype == 'paired':
