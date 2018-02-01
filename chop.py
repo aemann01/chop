@@ -45,7 +45,7 @@ def singleEnd(fastaDict, adapter):
 			if record.name == read:
 				if int(start)+int(fragLen) >= length: #make sure end position is not past the total fasta entry length
 					newSeq = adapter + record.seq[int(start)-int(fragLen):int(start)]
-					print(">%s_%i|%s|%i|%i:%i\n%s" % (read, i, args.fasta, len(newSeq), newSeq[0:int(args.maxlen)]))
+					print(">%s_%i|%s|%i|%i:%i\n%s" % (read, i, args.fasta, len(newSeq), int(start)-int(fragLen), int(start), newSeq[0:int(args.maxlen)]))
 				elif int(start)+int(fragLen) <= length:
 					newSeq = adapter + record.seq[int(start):int(start)+int(fragLen)]
 					print(">%s_%i|%s|%i|%i:%i\n%s" % (read, i, args.fasta, len(newSeq), int(start), int(start)+int(fragLen), newSeq[0:int(args.maxlen)]))
