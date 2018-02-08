@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-'''Useage: python chop.py -f input.fasta -r <number of reads to generate> -i <mean insert length> -t <sequencing type (paired or single)> [optional: -sd <standard deviation of insert size normal distribution> -l <maximum sequencing length> -a <adapter sequence>]'''
+'''Useage: python chop.py -f input.fasta -r <number of reads to generate> -i <mean insert length> -t <sequencing type (paired or single)> [optional: -sd <standard deviation of insert size normal distribution> -l <maximum sequencing length>]'''
 
 import sys
 import numpy as np
