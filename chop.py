@@ -75,9 +75,9 @@ def pairedEnd(fastaDict):
 
 #initialize program
 if args.seqtype == 'paired':
-        pairedEnd(fastaDict, adapter)
+        pairedEnd(fastaDict)
 elif args.seqtype == 'single':
-        singleEnd(fastaDict, adapter)
+        singleEnd(fastaDict)
 else:
 	print("SeqType must be either paired or single")
 
